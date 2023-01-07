@@ -7,6 +7,11 @@ import io.kotest.matchers.shouldBe
 
 internal class MemberPasswordTest : FreeSpec({
 
+    "숫자, 알파벳, 특수문자가 모두 포함된 8~20 자리 비밀번호를 생성할 수 있다." {
+        val password = MemberPassword("passworD123!@#")
+        password.value shouldBe "passworD123!@#"
+    }
+
     "비밀번호 길이가 8 미만이거나 20 초과일 경우 예외가 발생한다." - {
         listOf(
             "12ab!@3",
