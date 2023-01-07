@@ -1,6 +1,7 @@
 package hyeon9mak.membermanagementservice.application.register
 
 import hyeon9mak.membermanagementservice.domain.Member
+import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCodeRepository
 import hyeon9mak.membermanagementservice.domain.MemberRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MemberRegisterService(
     private val memberRepository: MemberRepository,
+    private val memberAuthenticationCodeRepository: MemberAuthenticationCodeRepository,
 ) {
     fun register(request: MemberRegisterRequest): MemberRegisterResponse {
         val member = Member.withoutId(
@@ -18,9 +20,15 @@ class MemberRegisterService(
             nickname = request.nickname,
             phoneNumber = request.phoneNumber,
         )
+        validateAuthenticationCode(member = member, code = request.authenticationCode)
         validateDuplicateEmailNicknamePhoneNumber(member = member)
         val savedMember = memberRepository.save(member = member)
         return MemberRegisterResponse.from(member = savedMember)
+    }
+
+    private fun validateAuthenticationCode(member: Member, code: String) {
+        val authenticationCode = memberAuthenticationCodeRepository.findLastByPhoneNumber(phoneNumber = member.phoneNumber)
+        authenticationCode.checkAuthenticated(code = code)
     }
 
     private fun validateDuplicateEmailNicknamePhoneNumber(member: Member) {

@@ -1,18 +1,35 @@
 package hyeon9mak.membermanagementservice.application.register
 
+import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCodeFixture.AUTHENTICATION_CODE
+import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCodeFixture.MemberAuthenticationCode
+import hyeon9mak.membermanagementservice.persistence.InMemoryMemberAuthenticationCodeRepository
 import hyeon9mak.membermanagementservice.persistence.InMemoryMemberRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 
+private const val s = "ABCDEFGH"
+
 internal class MemberRegisterServiceTest : FreeSpec({
 
     val memberRepository = InMemoryMemberRepository()
-    val memberRegisterService = MemberRegisterService(memberRepository = memberRepository)
+    val authenticationCodeRepository = InMemoryMemberAuthenticationCodeRepository()
+    val memberRegisterService = MemberRegisterService(
+        memberRepository = memberRepository,
+        memberAuthenticationCodeRepository = authenticationCodeRepository,
+    )
 
     beforeEach {
         memberRepository.init()
+        authenticationCodeRepository.init()
+        authenticationCodeRepository.save(
+            MemberAuthenticationCode(
+                phoneNumber = "01012345678",
+                code = AUTHENTICATION_CODE,
+                authenticated = true,
+            )
+        )
     }
 
     "회원을 등록할 수 있다." {
@@ -22,6 +39,7 @@ internal class MemberRegisterServiceTest : FreeSpec({
             password = "password123!@#",
             name = "최현구",
             phoneNumber = "01012345678",
+            authenticationCode = AUTHENTICATION_CODE,
         )
 
         val response = memberRegisterService.register(request)
@@ -40,18 +58,27 @@ internal class MemberRegisterServiceTest : FreeSpec({
             password = "password123!@#",
             name = "최현구",
             phoneNumber = "01012345678",
+            authenticationCode = AUTHENTICATION_CODE,
         )
         memberRegisterService.register(request)
 
-        val copyedRequest = request.copy(
+        authenticationCodeRepository.save(
+            MemberAuthenticationCode(
+                phoneNumber = "01098765432",
+                code = "ZZZZZZZZ",
+                authenticated = true,
+            )
+        )
+        val copiedRequest = request.copy(
             nickname = "another",
             password = "another123!@#",
             name = "홍길동",
             phoneNumber = "01098765432",
+            authenticationCode = "ZZZZZZZZ",
         )
 
         val exception =
-            shouldThrow<IllegalStateException> { memberRegisterService.register(copyedRequest) }
+            shouldThrow<IllegalStateException> { memberRegisterService.register(copiedRequest) }
 
         exception.message shouldBe "이미 존재하는 이메일입니다."
     }
@@ -63,18 +90,27 @@ internal class MemberRegisterServiceTest : FreeSpec({
             password = "password123!@#",
             name = "최현구",
             phoneNumber = "01012345678",
+            authenticationCode = AUTHENTICATION_CODE,
         )
         memberRegisterService.register(request)
 
-        val copyedRequest = request.copy(
+        authenticationCodeRepository.save(
+            MemberAuthenticationCode(
+                phoneNumber = "01098765432",
+                code = "ZZZZZZZZ",
+                authenticated = true,
+            )
+        )
+        val copiedRequest = request.copy(
             email = "another@gmail.com",
             password = "another123!@#",
             name = "홍길동",
             phoneNumber = "01098765432",
+            authenticationCode = "ZZZZZZZZ",
         )
 
         val exception =
-            shouldThrow<IllegalStateException> { memberRegisterService.register(copyedRequest) }
+            shouldThrow<IllegalStateException> { memberRegisterService.register(copiedRequest) }
 
         exception.message shouldBe "이미 존재하는 닉네임입니다."
     }
@@ -86,18 +122,27 @@ internal class MemberRegisterServiceTest : FreeSpec({
             password = "password123!@#",
             name = "최현구",
             phoneNumber = "01012345678",
+            authenticationCode = AUTHENTICATION_CODE,
         )
         memberRegisterService.register(request)
 
-        val copyedRequest = request.copy(
+        authenticationCodeRepository.save(
+            MemberAuthenticationCode(
+                phoneNumber = "01012345678",
+                code = "ZZZZZZZZ",
+                authenticated = true,
+            )
+        )
+        val copiedRequest = request.copy(
             email = "another@gmail.com",
             nickname = "another",
             password = "another123!@#",
             name = "홍길동",
+            authenticationCode = "ZZZZZZZZ",
         )
 
         val exception =
-            shouldThrow<IllegalStateException> { memberRegisterService.register(copyedRequest) }
+            shouldThrow<IllegalStateException> { memberRegisterService.register(copiedRequest) }
 
         exception.message shouldBe "이미 존재하는 전화번호입니다."
     }
