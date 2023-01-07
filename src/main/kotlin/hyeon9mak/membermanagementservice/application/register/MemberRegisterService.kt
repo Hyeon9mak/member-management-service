@@ -18,7 +18,14 @@ class MemberRegisterService(
             nickname = request.nickname,
             phoneNumber = request.phoneNumber,
         )
-        val savedMember = memberRepository.save(member)
+        validateDuplicateEmailNicknamePhoneNumber(member = member)
+        val savedMember = memberRepository.save(member = member)
         return MemberRegisterResponse.from(member = savedMember)
+    }
+
+    private fun validateDuplicateEmailNicknamePhoneNumber(member: Member) {
+        check(memberRepository.existsByEmail(email = member.email).not()) { "이미 존재하는 이메일입니다." }
+        check(memberRepository.existsByNickname(nickname = member.nickname).not()) { "이미 존재하는 닉네임입니다." }
+        check(memberRepository.existsByPhoneNumber(phoneNumber = member.phoneNumber).not()) { "이미 존재하는 전화번호입니다." }
     }
 }
