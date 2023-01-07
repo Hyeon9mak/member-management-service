@@ -1,5 +1,6 @@
 package hyeon9mak.membermanagementservice.application.register
 
+import hyeon9mak.membermanagementservice.persistence.InMemoryMemberRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan

@@ -1,4 +1,4 @@
-package hyeon9mak.membermanagementservice.application.register
+package hyeon9mak.membermanagementservice.persistence
 
 import hyeon9mak.membermanagementservice.domain.Member
 import hyeon9mak.membermanagementservice.domain.MemberEmail
@@ -14,16 +14,11 @@ class InMemoryMemberRepository : MemberRepository {
 
     override fun save(member: Member): Member {
         val id = atomicLong.incrementAndGet()
-        val savedMember = Member.withId(
-            id = id,
-            email = member.getEmailValue(),
-            password = member.password.value,
-            name = member.name.value,
-            nickname = member.getNicknameValue(),
-            phoneNumber = member.getPhoneNumberValue(),
-        )
-        members[id] = savedMember
-        return savedMember
+        val idField = member::class.java.getDeclaredField("id")
+        idField.isAccessible = true
+        idField.set(member, id)
+        members[id] = member
+        return member
     }
 
     override fun existsByEmail(email: MemberEmail): Boolean =

@@ -34,6 +34,7 @@ dependencies {
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.kotest:kotest-runner-junit5:5.5.4")
+	testImplementation("org.jetbrains.kotlin:kotlin-reflect")
 }
 
 tasks.withType<KotlinCompile> {
