@@ -1,6 +1,7 @@
 package hyeon9mak.membermanagementservice.domain
 
-data class MemberPassword(
+@JvmInline
+value class MemberPassword(
     val value: String
 ) {
     init {
