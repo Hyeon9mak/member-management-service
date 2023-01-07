@@ -1,0 +1,10 @@
+naver-cloud:
+    api:
+      access-key: "NAVER_CLOUD_API_ACCESS_KEY"
+      secret-key: "NAVER_CLOUD_API_SECRET_KEY"
+    sens:
+      api:
+        service-id: "SENS_API_SERVICE_ID"
+        sms:
+          message:
+            from: "SENS_API_SMS_MESSAGE_FROM"
