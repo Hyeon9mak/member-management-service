@@ -13,8 +13,8 @@ class MemberAuthenticationService(
     private val authenticationCodeRepository: MemberAuthenticationCodeRepository,
     private val memberRepository: MemberRepository,
 ) {
-    fun generateAuthenticationCodeForRegister(phoneNumber: String): MemberAuthenticationCodeResponse {
-        val memberPhoneNumber = MemberPhoneNumber(value = phoneNumber)
+    fun generateAuthenticationCodeForRegister(request: MemberAuthenticationCodeRequest): MemberAuthenticationCodeResponse {
+        val memberPhoneNumber = MemberPhoneNumber(value = request.phoneNumber)
         validateAlreadyExistsMember(phoneNumber = memberPhoneNumber)
         val memberAuthenticationCode = authenticationCodeRepository.save(MemberAuthenticationCode(phoneNumber = memberPhoneNumber))
         return MemberAuthenticationCodeResponse(authenticationCode = memberAuthenticationCode.code)

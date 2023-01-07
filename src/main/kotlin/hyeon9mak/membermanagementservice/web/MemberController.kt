@@ -1,6 +1,7 @@
 package hyeon9mak.membermanagementservice.web
 
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticateRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeResponse
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationService
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterRequest
@@ -13,10 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
-import javax.validation.constraints.Size
 
 @Validated
 @RequestMapping("/api/v1/members")
@@ -26,17 +25,16 @@ class MemberController(
     private val memberAuthenticationService: MemberAuthenticationService,
 ) {
     @PostMapping("/register")
-    fun register(@Valid @RequestBody memberRegisterRequest: MemberRegisterRequest): ResponseEntity<MemberRegisterResponse> {
-        val response = memberRegisterService.register(memberRegisterRequest)
+    fun register(@Valid @RequestBody request: MemberRegisterRequest): ResponseEntity<MemberRegisterResponse> {
+        val response = memberRegisterService.register(request = request)
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
     @PostMapping("/authentication-code")
     fun generateAuthenticationCode(
-        @Size(min = 10, max = 11, message = "전화번호는 특수문자 없이 10자 이상 11자 이하로 입력해주세요.")
-        @RequestParam(name = "phone-number", required = true) phoneNumber: String,
+        @Valid @RequestBody request: MemberAuthenticationCodeRequest
     ): ResponseEntity<MemberAuthenticationCodeResponse> {
-        val response = memberAuthenticationService.generateAuthenticationCodeForRegister(phoneNumber)
+        val response = memberAuthenticationService.generateAuthenticationCodeForRegister(request = request)
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
