@@ -18,6 +18,11 @@ class MemberAuthenticationCode(
         authenticated = true
     }
 
+    fun checkAuthenticated(code: String) {
+        require(this.code == code) { "인증 코드가 일치하지 않습니다." }
+        check(authenticated) { "인증되지 않았습니다." }
+    }
+
     fun generateMessage(): String = "[인증 코드] $code"
 
     override fun equals(other: Any?): Boolean {
