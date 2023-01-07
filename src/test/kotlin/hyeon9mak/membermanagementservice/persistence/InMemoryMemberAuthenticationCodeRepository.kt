@@ -28,4 +28,7 @@ class InMemoryMemberAuthenticationCodeRepository : MemberAuthenticationCodeRepos
         codes.clear()
         atomicLong.set(0)
     }
+
+    fun existsByPhoneNumber(phoneNumber: String): Boolean =
+        codes.values.any { it.phoneNumber.value == phoneNumber }
 }

@@ -7,10 +7,6 @@ data class MemberAuthenticationCodeRequest(
     val phoneNumber: String,
 )
 
-data class MemberAuthenticationCodeResponse(
-    val authenticationCode: String,
-)
-
 data class MemberAuthenticateRequest(
     @field:Size(min = 10, max = 11, message = "전화번호는 특수문자 없이 10자 이상 11자 이하로 입력해주세요.")
     val phoneNumber: String,

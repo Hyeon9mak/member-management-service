@@ -12,12 +12,13 @@ import org.springframework.transaction.annotation.Transactional
 class MemberAuthenticationService(
     private val authenticationCodeRepository: MemberAuthenticationCodeRepository,
     private val memberRepository: MemberRepository,
+    private val smsMessageSender: SmsMessageSender,
 ) {
-    fun generateAuthenticationCodeForRegister(request: MemberAuthenticationCodeRequest): MemberAuthenticationCodeResponse {
+    fun generateAuthenticationCodeForRegister(request: MemberAuthenticationCodeRequest) {
         val memberPhoneNumber = MemberPhoneNumber(value = request.phoneNumber)
         validateAlreadyExistsMember(phoneNumber = memberPhoneNumber)
         val memberAuthenticationCode = authenticationCodeRepository.save(MemberAuthenticationCode(phoneNumber = memberPhoneNumber))
-        return MemberAuthenticationCodeResponse(authenticationCode = memberAuthenticationCode.code)
+        smsMessageSender.send(phoneNumber = memberPhoneNumber.value, message = memberAuthenticationCode.generateMessage())
     }
 
     private fun validateAlreadyExistsMember(phoneNumber: MemberPhoneNumber) {

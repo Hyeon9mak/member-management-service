@@ -2,7 +2,6 @@ package hyeon9mak.membermanagementservice.web
 
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticateRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeRequest
-import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeResponse
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationService
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterRequest
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterResponse
@@ -33,9 +32,9 @@ class MemberController(
     @PostMapping("/authentication-code")
     fun generateAuthenticationCode(
         @Valid @RequestBody request: MemberAuthenticationCodeRequest
-    ): ResponseEntity<MemberAuthenticationCodeResponse> {
-        val response = memberAuthenticationService.generateAuthenticationCodeForRegister(request = request)
-        return ResponseEntity.status(HttpStatus.CREATED).body(response)
+    ): ResponseEntity<Void> {
+        memberAuthenticationService.generateAuthenticationCodeForRegister(request = request)
+        return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     @PutMapping("/authentication")

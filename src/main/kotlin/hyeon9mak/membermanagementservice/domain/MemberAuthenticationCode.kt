@@ -18,6 +18,8 @@ class MemberAuthenticationCode(
         authenticated = true
     }
 
+    fun generateMessage(): String = "[인증 코드] $code"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
