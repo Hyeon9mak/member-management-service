@@ -15,6 +15,13 @@ repositories {
 	mavenCentral()
 }
 
+// https://hyeon9mak.github.io/kotlin-jpa-essentials
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.MappedSuperclass")
+	annotation("javax.persistence.Embeddable")
+}
+
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
