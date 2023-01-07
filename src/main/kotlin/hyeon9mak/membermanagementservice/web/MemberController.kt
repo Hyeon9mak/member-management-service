@@ -1,5 +1,6 @@
 package hyeon9mak.membermanagementservice.web
 
+import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticateRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeResponse
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationService
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterRequest
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -36,5 +38,11 @@ class MemberController(
     ): ResponseEntity<MemberAuthenticationCodeResponse> {
         val response = memberAuthenticationService.generateAuthenticationCodeForRegister(phoneNumber)
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
+    }
+
+    @PutMapping("/authentication")
+    fun authenticate(@Valid @RequestBody request: MemberAuthenticateRequest): ResponseEntity<Void> {
+        memberAuthenticationService.authenticate(request = request)
+        return ResponseEntity.ok().build()
     }
 }

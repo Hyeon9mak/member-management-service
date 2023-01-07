@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 interface MemberAuthenticationCodeRepository {
 
     fun save(memberAuthenticationCode: MemberAuthenticationCode): MemberAuthenticationCode
+
+    fun findLastByPhoneNumber(phoneNumber: MemberPhoneNumber): MemberAuthenticationCode
 }
