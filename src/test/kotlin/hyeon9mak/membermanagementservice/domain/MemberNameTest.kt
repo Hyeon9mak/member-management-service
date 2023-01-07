@@ -7,6 +7,16 @@ import io.kotest.matchers.shouldBe
 
 internal class MemberNameTest : FreeSpec({
 
+    "한글로만 이루어진 이름을 생성할 수 있다." {
+        val name = MemberName.of("최현구")
+        name.value shouldBe "최현구"
+    }
+
+    "알파벳과 공백으로 이루어진 이름을 생성할 수 있다." {
+        val name = MemberName.of("hyeon gu")
+        name.value shouldBe "hyeon gu"
+    }
+
     "이름 길이가 2 미만 100 초과일 경우 에외가 발생한다." - {
         listOf(
             "현",

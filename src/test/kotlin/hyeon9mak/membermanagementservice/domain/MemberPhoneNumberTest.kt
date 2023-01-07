@@ -7,6 +7,14 @@ import io.kotest.matchers.shouldBe
 
 internal class MemberPhoneNumberTest : FreeSpec({
 
+    "숫자로만 이루어진 10~11 자리의 전화번호를 생성할 수 있다." {
+        val length11 = MemberPhoneNumber("01012345678")
+        val length10 = MemberPhoneNumber("0101234567")
+
+        length11 shouldBe MemberPhoneNumber("01012345678")
+        length10 shouldBe MemberPhoneNumber("0101234567")
+    }
+
     "전화번호에 숫자 외 값이 포함될 경우 예외가 발생한다." - {
         listOf(
             "010-1234-5678",

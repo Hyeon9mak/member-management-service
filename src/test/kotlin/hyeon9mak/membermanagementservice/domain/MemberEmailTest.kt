@@ -7,6 +7,11 @@ import io.kotest.matchers.shouldBe
 
 internal class MemberEmailTest : FreeSpec({
 
+    "이메일 형태가 올바른 경우 생성할 수 있다." {
+        val email = MemberEmail("jinha3507@gmail.com")
+        email.value shouldBe "jinha3507@gmail.com"
+    }
+
     "이메일 ID 가 올바르지 않으면 예외가 발생한다." - {
         listOf(
             "",

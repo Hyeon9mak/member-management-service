@@ -8,6 +8,16 @@ import java.lang.IllegalArgumentException
 
 internal class MemberNicknameTest : FreeSpec({
 
+    "알파벳, 숫자, 한글로 이루어진 닉네임을 생성할 수 있다." {
+        val hyeon9makNickname = MemberNickname("hyeon9mak")
+        val choiHyeonGuNickname = MemberNickname("최현구")
+        val oneTwoThreeNickname = MemberNickname("123")
+
+        hyeon9makNickname shouldBe MemberNickname("hyeon9mak")
+        choiHyeonGuNickname shouldBe MemberNickname("최현구")
+        oneTwoThreeNickname shouldBe MemberNickname("123")
+    }
+
     "닉네임에 알파벳, 숫자, 한글 외 특수문자가 포함될 경우 예외가 발생한다." - {
         listOf(
             "#",
