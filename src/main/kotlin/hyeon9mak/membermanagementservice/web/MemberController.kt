@@ -1,8 +1,9 @@
 package hyeon9mak.membermanagementservice.web
 
-import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticateRequest
-import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberRegisterAuthenticateRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberRegisterAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeService
+import hyeon9mak.membermanagementservice.application.authentication.MemberPasswordResetAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.login.LoginMember
 import hyeon9mak.membermanagementservice.application.login.Logined
 import hyeon9mak.membermanagementservice.application.login.MemberEmailLoginRequest
@@ -41,16 +42,22 @@ class MemberController(
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
-    @PostMapping("/authentication-code")
-    fun generateAuthenticationCode(
-        @Valid @RequestBody request: MemberAuthenticationCodeRequest
+    @PostMapping("/register/authentication-code")
+    fun generateAuthenticationCodeForRegister(
+        @Valid @RequestBody request: MemberRegisterAuthenticationCodeRequest
     ): ResponseEntity<Void> {
         memberAuthenticationCodeService.generateAuthenticationCodeForRegister(request = request)
-        return ResponseEntity.status(HttpStatus.CREATED).build()
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/reset-password/authentication-code")
+    fun generateAuthenticationCodeForResetPassword(@Valid @RequestBody request: MemberPasswordResetAuthenticationCodeRequest): ResponseEntity<Void> {
+        memberAuthenticationCodeService.generateAuthenticationCodeForPasswordReset(request = request)
+        return ResponseEntity.ok().build()
     }
 
     @PutMapping("/authentication")
-    fun authenticate(@Valid @RequestBody request: MemberAuthenticateRequest): ResponseEntity<Void> {
+    fun authenticate(@Valid @RequestBody request: MemberRegisterAuthenticateRequest): ResponseEntity<Void> {
         memberAuthenticationCodeService.authenticate(request = request)
         return ResponseEntity.ok().build()
     }

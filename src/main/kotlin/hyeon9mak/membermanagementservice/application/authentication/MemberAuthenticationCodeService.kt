@@ -14,7 +14,7 @@ class MemberAuthenticationCodeService(
     private val memberRepository: MemberRepository,
     private val smsMessageSender: SmsMessageSender,
 ) {
-    fun generateAuthenticationCodeForRegister(request: MemberAuthenticationCodeRequest) {
+    fun generateAuthenticationCodeForRegister(request: MemberRegisterAuthenticationCodeRequest) {
         val memberPhoneNumber = MemberPhoneNumber(value = request.phoneNumber)
         validateAlreadyExistsMember(phoneNumber = memberPhoneNumber)
         val memberAuthenticationCode = authenticationCodeRepository.save(MemberAuthenticationCode(phoneNumber = memberPhoneNumber))
@@ -25,7 +25,27 @@ class MemberAuthenticationCodeService(
         check(memberRepository.existsByPhoneNumber(phoneNumber = phoneNumber.value).not()) { "이미 전화번호가 동일한 회원계정이 존재합니다." }
     }
 
-    fun authenticate(request: MemberAuthenticateRequest) {
+    fun generateAuthenticationCodeForPasswordReset(request: MemberPasswordResetAuthenticationCodeRequest) {
+        val member = findMemberByEmailAndNameAndPhoneNumber(
+            email = request.email,
+            name = request.name,
+            phoneNumber = request.phoneNumber,
+        )
+        val memberAuthenticationCode = authenticationCodeRepository.save(MemberAuthenticationCode(phoneNumber = member.phoneNumber))
+        smsMessageSender.send(phoneNumber = member.getPhoneNumberValue(), message = memberAuthenticationCode.generateMessage())
+    }
+
+    private fun findMemberByEmailAndNameAndPhoneNumber(
+        email: String,
+        name: String,
+        phoneNumber: String
+    ) = memberRepository.findByEmailAndNameAndPhoneNumber(
+        email = email,
+        name = name,
+        phoneNumber = phoneNumber
+    ) ?: throw IllegalArgumentException("회원계정이 존재하지 않습니다.")
+
+    fun authenticate(request: MemberRegisterAuthenticateRequest) {
         val authenticationCode = findLastOneByPhoneNumber(phoneNumber = request.phoneNumber)
         authenticationCode.authenticate(code = request.code)
     }

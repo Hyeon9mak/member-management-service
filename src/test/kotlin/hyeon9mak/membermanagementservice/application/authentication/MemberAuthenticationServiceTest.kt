@@ -25,14 +25,14 @@ internal class MemberAuthenticationServiceTest : FreeSpec({
     }
 
     "8자리 회원 인증 코드를 발급받을 수 있다." {
-        val request = MemberAuthenticationCodeRequest(phoneNumber = "01012345678")
+        val request = MemberRegisterAuthenticationCodeRequest(phoneNumber = "01012345678")
         memberAuthenticationCodeService.generateAuthenticationCodeForRegister(request = request)
         memberAuthenticationCodeRepository.existsByPhoneNumber(phoneNumber = request.phoneNumber) shouldBe true
     }
 
     "이미 동일한 전화번호로 가입된 회원계정이 있으면 예외가 발생한다." {
         memberRepository.save(Member(phoneNumber = "01012345678"))
-        val request = MemberAuthenticationCodeRequest(phoneNumber = "01012345678")
+        val request = MemberRegisterAuthenticationCodeRequest(phoneNumber = "01012345678")
         val exception = shouldThrowExactly<IllegalStateException> {
             memberAuthenticationCodeService.generateAuthenticationCodeForRegister(request = request)
         }
