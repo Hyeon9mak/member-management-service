@@ -27,7 +27,7 @@ class MemberRegisterService(
     }
 
     private fun validateAuthenticationCode(member: Member, code: String) {
-        val authenticationCode = memberAuthenticationCodeRepository.findLastByPhoneNumber(phoneNumber = member.getPhoneNumberValue())
+        val authenticationCode = memberAuthenticationCodeRepository.findLastOneByPhoneNumber(phoneNumber = member.getPhoneNumberValue())
         authenticationCode.checkAuthenticated(code = code)
     }
 

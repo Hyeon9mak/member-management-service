@@ -26,7 +26,7 @@ class MemberAuthenticationService(
     }
 
     fun authenticate(request: MemberAuthenticateRequest) {
-        val authenticationCode = authenticationCodeRepository.findLastByPhoneNumber(phoneNumber = request.phoneNumber)
+        val authenticationCode = authenticationCodeRepository.findLastOneByPhoneNumber(phoneNumber = request.phoneNumber)
         authenticationCode.authenticate(code = request.code)
     }
 }

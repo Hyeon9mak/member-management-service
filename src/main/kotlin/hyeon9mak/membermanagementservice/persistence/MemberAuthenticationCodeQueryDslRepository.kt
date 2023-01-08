@@ -4,5 +4,5 @@ import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCode
 
 interface MemberAuthenticationCodeQueryDslRepository {
 
-    fun findLastByPhoneNumber(phoneNumber: String): MemberAuthenticationCode
+    fun findLastOneByPhoneNumber(phoneNumber: String): MemberAuthenticationCode
 }

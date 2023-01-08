@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 class MemberAuthenticationCodeQueryDslRepositoryImpl : MemberAuthenticationCodeQueryDslRepository,
     QuerydslRepositorySupport(MemberAuthenticationCode::class.java) {
 
-    override fun findLastByPhoneNumber(phoneNumber: String): MemberAuthenticationCode =
+    override fun findLastOneByPhoneNumber(phoneNumber: String): MemberAuthenticationCode =
         from(memberAuthenticationCode)
             .where(memberAuthenticationCode.phoneNumber.eq(phoneNumber))
             .orderBy(memberAuthenticationCode.id.desc())

@@ -24,7 +24,7 @@ internal class MemberAuthenticationCodeJpaRepositoryTest(
     "전화번호를 통해 가장 최근 회원 인증 코드를 조회할 수 있다." {
         val first = memberRepository.save(MemberAuthenticationCode(phoneNumber = "01012345678"))
         val second = memberRepository.save(MemberAuthenticationCode(phoneNumber = "01012345678"))
-        val foundMemberAuthenticationCode = memberRepository.findLastByPhoneNumber(phoneNumber = "01012345678")
+        val foundMemberAuthenticationCode = memberRepository.findLastOneByPhoneNumber(phoneNumber = "01012345678")
         foundMemberAuthenticationCode shouldNotBe first
         foundMemberAuthenticationCode shouldBe second
     }
