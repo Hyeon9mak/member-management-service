@@ -1,5 +1,6 @@
 package hyeon9mak.membermanagementservice.domain
 
+import javax.naming.AuthenticationException
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Index
@@ -30,12 +31,16 @@ class Member(
     @Column(name = "phone_number", nullable = false, unique = true, length = 11)
     val phoneNumber: MemberPhoneNumber,
 ) : BaseEntity() {
+
+    fun authenticate(password: MemberPassword) {
+        if (this.password != password) {
+            throw AuthenticationException("회원 정보가 일치하지 않습니다.")
+        }
+    }
+
     fun getEmailValue(): String = email.value
-
     fun getNameValue(): String = name.value
-
     fun getNicknameValue(): String = nickname.value
-
     fun getPhoneNumberValue(): String = phoneNumber.value
 
     companion object {

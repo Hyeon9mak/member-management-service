@@ -3,6 +3,8 @@ package hyeon9mak.membermanagementservice.web
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticateRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationService
+import hyeon9mak.membermanagementservice.application.authentication.MemberEmailLoginRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberLoginResponse
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterRequest
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterResponse
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterService
@@ -41,5 +43,11 @@ class MemberController(
     fun authenticate(@Valid @RequestBody request: MemberAuthenticateRequest): ResponseEntity<Void> {
         memberAuthenticationService.authenticate(request = request)
         return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/login/email")
+    fun login(@Valid @RequestBody request: MemberEmailLoginRequest): ResponseEntity<MemberLoginResponse> {
+        val response = memberAuthenticationService.generateTokenByEmailLogin(request = request)
+        return ResponseEntity.ok(response)
     }
 }
