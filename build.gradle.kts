@@ -33,6 +33,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5") // spring-boot 2.7.6 버전과 호환
 
+	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.kotest:kotest-runner-junit5:5.5.4")
 	testImplementation("org.jetbrains.kotlin:kotlin-reflect")
