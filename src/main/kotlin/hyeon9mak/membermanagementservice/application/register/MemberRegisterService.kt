@@ -27,9 +27,13 @@ class MemberRegisterService(
     }
 
     private fun validateAuthenticationCode(member: Member, code: String) {
-        val authenticationCode = memberAuthenticationCodeRepository.findLastOneByPhoneNumber(phoneNumber = member.getPhoneNumberValue())
+        val authenticationCode = findLastCodeByPhoneNumber(phoneNumber = member.getPhoneNumberValue())
         authenticationCode.checkAuthenticated(code = code)
     }
+
+    private fun findLastCodeByPhoneNumber(phoneNumber: String) =
+        memberAuthenticationCodeRepository.findLastOneByPhoneNumber(phoneNumber = phoneNumber)
+            ?: throw IllegalArgumentException("전화번호에 해당하는 인증코드 기록이 존재하지 않습니다.")
 
     private fun validateDuplicateEmailNicknamePhoneNumber(member: Member) {
         check(memberRepository.existsByEmail(email = member.getEmailValue()).not()) { "이미 존재하는 이메일입니다." }

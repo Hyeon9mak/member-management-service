@@ -12,7 +12,10 @@ class MemberInfoService(
     fun existsMemberByEmail(email: String) = memberRepository.existsByEmail(email = email)
 
     fun getInfoByEmail(email: String): MemberInfoResponse {
-        val member = memberRepository.findByEmail(email = email)
+        val member = findMemberByEmail(email = email)
         return MemberInfoResponse.from(member = member)
     }
+
+    private fun findMemberByEmail(email: String) = memberRepository.findByEmail(email = email)
+        ?: throw IllegalArgumentException("이메일에 해당하는 회원정보가 없습니다.")
 }

@@ -26,7 +26,11 @@ class MemberAuthenticationCodeService(
     }
 
     fun authenticate(request: MemberAuthenticateRequest) {
-        val authenticationCode = authenticationCodeRepository.findLastOneByPhoneNumber(phoneNumber = request.phoneNumber)
+        val authenticationCode = findLastOneByPhoneNumber(phoneNumber = request.phoneNumber)
         authenticationCode.authenticate(code = request.code)
     }
+
+    private fun findLastOneByPhoneNumber(phoneNumber: String) =
+        authenticationCodeRepository.findLastOneByPhoneNumber(phoneNumber = phoneNumber)
+            ?: throw IllegalArgumentException("전화번호에 해당하는 인증코드 기록이 존재하지 않습니다.")
 }

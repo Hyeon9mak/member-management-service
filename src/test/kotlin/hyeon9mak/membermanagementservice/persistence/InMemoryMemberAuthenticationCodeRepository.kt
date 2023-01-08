@@ -18,7 +18,7 @@ class InMemoryMemberAuthenticationCodeRepository : MemberAuthenticationCodeRepos
         return memberAuthenticationCode
     }
 
-    override fun findLastOneByPhoneNumber(phoneNumber: String): MemberAuthenticationCode =
+    override fun findLastOneByPhoneNumber(phoneNumber: String): MemberAuthenticationCode? =
         codes.values
             .filter { it.getPhoneNumberValue() == phoneNumber }
             .maxBy { it.id }
