@@ -4,9 +4,9 @@ interface MemberRepository {
 
     fun save(member: Member): Member
 
-    fun existsByEmail(email: MemberEmail): Boolean
+    fun existsByEmail(email: String): Boolean
 
-    fun existsByNickname(nickname: MemberNickname): Boolean
+    fun existsByNickname(nickname: String): Boolean
 
-    fun existsByPhoneNumber(phoneNumber: MemberPhoneNumber): Boolean
+    fun existsByPhoneNumber(phoneNumber: String): Boolean
 }

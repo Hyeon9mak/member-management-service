@@ -2,7 +2,6 @@ package hyeon9mak.membermanagementservice.persistence
 
 import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCode
 import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCodeRepository
-import hyeon9mak.membermanagementservice.domain.MemberPhoneNumber
 import java.util.concurrent.atomic.AtomicLong
 
 class InMemoryMemberAuthenticationCodeRepository : MemberAuthenticationCodeRepository {
@@ -19,9 +18,9 @@ class InMemoryMemberAuthenticationCodeRepository : MemberAuthenticationCodeRepos
         return memberAuthenticationCode
     }
 
-    override fun findLastByPhoneNumber(phoneNumber: MemberPhoneNumber): MemberAuthenticationCode =
+    override fun findLastByPhoneNumber(phoneNumber: String): MemberAuthenticationCode =
         codes.values
-            .filter { it.phoneNumber == phoneNumber }
+            .filter { it.phoneNumber.value == phoneNumber }
             .maxBy { it.createdAt }
 
     fun init() {

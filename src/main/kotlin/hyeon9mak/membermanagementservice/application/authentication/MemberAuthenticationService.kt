@@ -22,12 +22,11 @@ class MemberAuthenticationService(
     }
 
     private fun validateAlreadyExistsMember(phoneNumber: MemberPhoneNumber) {
-        check(memberRepository.existsByPhoneNumber(phoneNumber = phoneNumber).not()) { "이미 전화번호가 동일한 회원계정이 존재합니다." }
+        check(memberRepository.existsByPhoneNumber(phoneNumber = phoneNumber.value).not()) { "이미 전화번호가 동일한 회원계정이 존재합니다." }
     }
 
     fun authenticate(request: MemberAuthenticateRequest) {
-        val memberPhoneNumber = MemberPhoneNumber(value = request.phoneNumber)
-        val authenticationCode = authenticationCodeRepository.findLastByPhoneNumber(phoneNumber = memberPhoneNumber)
+        val authenticationCode = authenticationCodeRepository.findLastByPhoneNumber(phoneNumber = request.phoneNumber)
         authenticationCode.authenticate(code = request.code)
     }
 }

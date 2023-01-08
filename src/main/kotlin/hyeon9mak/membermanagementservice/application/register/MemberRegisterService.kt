@@ -27,13 +27,13 @@ class MemberRegisterService(
     }
 
     private fun validateAuthenticationCode(member: Member, code: String) {
-        val authenticationCode = memberAuthenticationCodeRepository.findLastByPhoneNumber(phoneNumber = member.phoneNumber)
+        val authenticationCode = memberAuthenticationCodeRepository.findLastByPhoneNumber(phoneNumber = member.getPhoneNumberValue())
         authenticationCode.checkAuthenticated(code = code)
     }
 
     private fun validateDuplicateEmailNicknamePhoneNumber(member: Member) {
-        check(memberRepository.existsByEmail(email = member.email).not()) { "이미 존재하는 이메일입니다." }
-        check(memberRepository.existsByNickname(nickname = member.nickname).not()) { "이미 존재하는 닉네임입니다." }
-        check(memberRepository.existsByPhoneNumber(phoneNumber = member.phoneNumber).not()) { "이미 존재하는 전화번호입니다." }
+        check(memberRepository.existsByEmail(email = member.getEmailValue()).not()) { "이미 존재하는 이메일입니다." }
+        check(memberRepository.existsByNickname(nickname = member.getNicknameValue()).not()) { "이미 존재하는 닉네임입니다." }
+        check(memberRepository.existsByPhoneNumber(phoneNumber = member.getPhoneNumberValue()).not()) { "이미 존재하는 전화번호입니다." }
     }
 }

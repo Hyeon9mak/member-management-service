@@ -7,5 +7,5 @@ interface MemberAuthenticationCodeRepository {
 
     fun save(memberAuthenticationCode: MemberAuthenticationCode): MemberAuthenticationCode
 
-    fun findLastByPhoneNumber(phoneNumber: MemberPhoneNumber): MemberAuthenticationCode
+    fun findLastByPhoneNumber(phoneNumber: String): MemberAuthenticationCode
 }

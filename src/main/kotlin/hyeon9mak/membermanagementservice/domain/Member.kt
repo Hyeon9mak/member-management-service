@@ -27,7 +27,7 @@ class Member(
     @Column(nullable = false, unique = true, length = 10)
     val nickname: MemberNickname,
 
-    @Column(nullable = false, unique = true, length = 11)
+    @Column(name = "phone_number", nullable = false, unique = true, length = 11)
     val phoneNumber: MemberPhoneNumber,
 ) : BaseEntity() {
     fun getEmailValue(): String = email.value

@@ -15,7 +15,7 @@ import javax.persistence.Table
 )
 @Entity
 class MemberAuthenticationCode(
-    @Column(nullable = false, length = 11)
+    @Column(name = "phone_number", nullable = false, length = 11)
     val phoneNumber: MemberPhoneNumber,
 
     @Column(nullable = false, length = 8)
@@ -24,10 +24,10 @@ class MemberAuthenticationCode(
     @Column(nullable = false)
     var authenticated: Boolean = false,
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now()
 ) : BaseEntity() {
-    @Column(nullable = false)
+    @Column(name = "expired_at", nullable = false)
     private val expiredAt: LocalDateTime = createdAt.plusMinutes(10L)
 
     fun authenticate(code: String) {

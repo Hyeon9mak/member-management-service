@@ -9,8 +9,6 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 
-private const val s = "ABCDEFGH"
-
 internal class MemberRegisterServiceTest : FreeSpec({
 
     val memberRepository = InMemoryMemberRepository()
