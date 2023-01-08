@@ -2,7 +2,7 @@ version: "3.9"
 services:
   member-management-service-db:
     container_name: member-management-service-mariadb
-    image: mariadb:latest
+    image: mariadb:10.5.18
     platform: linux/x86_64
     restart: always
     ports:
