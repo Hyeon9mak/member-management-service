@@ -1,6 +1,6 @@
 package hyeon9mak.membermanagementservice.application.login
 
-import hyeon9mak.membermanagementservice.application.read.MemberReadService
+import hyeon9mak.membermanagementservice.application.read.MemberInfoService
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory
@@ -12,7 +12,7 @@ import javax.naming.AuthenticationException
 @Component
 class LoginMemberResolver(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val memberReadService: MemberReadService,
+    private val memberInfoService: MemberInfoService,
 ) : HandlerMethodArgumentResolver {
 
     override fun supportsParameter(parameter: MethodParameter): Boolean =
@@ -43,7 +43,7 @@ class LoginMemberResolver(
     }
 
     private fun validateExistsMember(email: String) {
-        if (memberReadService.existsMemberByEmail(email).not()) {
+        if (memberInfoService.existsMemberByEmail(email).not()) {
             throw AuthenticationException("존재하지 않는 회원입니다.")
         }
     }

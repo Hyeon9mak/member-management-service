@@ -12,7 +12,6 @@ spring:
         show_sql: true
         format_sql: true
 
-
 naver-cloud:
     api:
       access-key: "NAVER_CLOUD_API_ACCESS_KEY"
