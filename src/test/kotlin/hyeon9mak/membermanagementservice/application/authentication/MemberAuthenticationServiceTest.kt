@@ -17,6 +17,7 @@ internal class MemberAuthenticationServiceTest : FreeSpec({
         authenticationCodeRepository = memberAuthenticationCodeRepository,
         memberRepository = memberRepository,
         smsMessageSender = smsMessageSender,
+        jwtTokenProvider = JwtTokenProvider()
     )
 
     beforeEach {
