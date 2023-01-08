@@ -4,6 +4,8 @@ import hyeon9mak.membermanagementservice.application.authentication.MemberRegist
 import hyeon9mak.membermanagementservice.application.authentication.MemberRegisterAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeService
 import hyeon9mak.membermanagementservice.application.authentication.MemberPasswordResetAuthenticationCodeRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberPasswordResetRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberPasswordResetService
 import hyeon9mak.membermanagementservice.application.login.LoginMember
 import hyeon9mak.membermanagementservice.application.login.Logined
 import hyeon9mak.membermanagementservice.application.login.MemberEmailLoginRequest
@@ -32,6 +34,7 @@ import javax.validation.Valid
 @RestController
 class MemberController(
     private val memberRegisterService: MemberRegisterService,
+    private val memberPasswordResetService: MemberPasswordResetService,
     private val memberLoginService: MemberLoginService,
     private val memberAuthenticationCodeService: MemberAuthenticationCodeService,
     private val memberInfoService: MemberInfoService,
@@ -47,6 +50,14 @@ class MemberController(
         @Valid @RequestBody request: MemberRegisterAuthenticationCodeRequest
     ): ResponseEntity<Void> {
         memberAuthenticationCodeService.generateAuthenticationCodeForRegister(request = request)
+        return ResponseEntity.ok().build()
+    }
+
+    @PutMapping("/reset-password")
+    fun resetPassword(
+        @Valid @RequestBody request: MemberPasswordResetRequest
+    ): ResponseEntity<Void> {
+        memberPasswordResetService.resetPassword(request = request)
         return ResponseEntity.ok().build()
     }
 

@@ -20,7 +20,7 @@ class Member(
     val email: MemberEmail,
 
     @Column(nullable = false)
-    val password: MemberPassword,
+    private var password: MemberPassword,
 
     @Column(nullable = false, length = 100)
     val name: MemberName,
@@ -34,6 +34,10 @@ class Member(
 
     fun authenticate(password: MemberPassword) {
         this.password.authenticate(password)
+    }
+
+    fun resetPassword(password: MemberPassword) {
+        this.password = password
     }
 
     fun getEmailValue(): String = email.value
