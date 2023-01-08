@@ -9,4 +9,10 @@ interface MemberRepository {
     fun existsByNickname(nickname: String): Boolean
 
     fun existsByPhoneNumber(phoneNumber: String): Boolean
+
+    fun findByEmail(email: String): Member
+
+    fun findByNickname(nickname: String): Member
+
+    fun findByPhoneNumber(phoneNumber: String): Member
 }

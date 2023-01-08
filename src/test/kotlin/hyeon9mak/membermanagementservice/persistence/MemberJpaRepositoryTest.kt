@@ -76,18 +76,36 @@ internal class MemberJpaRepositoryTest(
         shouldThrowExactly<DataIntegrityViolationException> { memberRepository.save(duplicateMember) }
     }
 
-    "이메일로 회원 정보를 조회할 수 있다." {
+    "이메일로 회원 정보 존재여부를 확인할 수 있다." {
         val member = memberRepository.save(Member())
         memberRepository.existsByEmail(email = member.getEmailValue()) shouldBe true
     }
 
-    "닉네임으로 회원 정보를 조회할 수 있다." {
+    "닉네임으로 회원 정보 존재여부를 확인할 수 있다." {
         val member = memberRepository.save(Member())
         memberRepository.existsByNickname(nickname = member.getNicknameValue()) shouldBe true
     }
 
-    "전화번호로 회원 정보를 조회할 수 있다." {
+    "전화번호로 회원 정보 존재여부를 확인할 수 있다." {
         val member = memberRepository.save(Member())
         memberRepository.existsByPhoneNumber(phoneNumber = member.getPhoneNumberValue()) shouldBe true
+    }
+
+    "이메일로 회원 정보를 조회할 수 있다." {
+        val member = memberRepository.save(Member())
+        val found = memberRepository.findByEmail(email = member.getEmailValue())
+        found shouldBe member
+    }
+
+    "닉네임으로 회원 정보를 조회할 수 있다." {
+        val member = memberRepository.save(Member())
+        val found = memberRepository.findByNickname(nickname = member.getNicknameValue())
+        found shouldBe member
+    }
+
+    "전화번호로 회원 정보를 조회할 수 있다." {
+        val member = memberRepository.save(Member())
+        val found = memberRepository.findByPhoneNumber(phoneNumber = member.getPhoneNumberValue())
+        found shouldBe member
     }
 })
