@@ -16,7 +16,7 @@ ALTER TABLE member
     ADD CONSTRAINT uc_member_nickname UNIQUE (nickname);
 
 ALTER TABLE member
-    ADD CONSTRAINT uc_member_phonenumber UNIQUE (phone_number);
+    ADD CONSTRAINT uc_member_phone_number UNIQUE (phone_number);
 
 CREATE TABLE member_authentication_code
 (
