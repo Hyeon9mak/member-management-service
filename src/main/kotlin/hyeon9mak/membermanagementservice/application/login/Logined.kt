@@ -1,4 +1,4 @@
-package hyeon9mak.membermanagementservice.application.authentication
+package hyeon9mak.membermanagementservice.application.login
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)

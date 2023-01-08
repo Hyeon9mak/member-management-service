@@ -1,4 +1,4 @@
-package hyeon9mak.membermanagementservice.application.authentication
+package hyeon9mak.membermanagementservice.application.login
 
 import javax.validation.constraints.Email
 import javax.validation.constraints.Size

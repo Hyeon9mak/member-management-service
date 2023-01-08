@@ -2,11 +2,12 @@ package hyeon9mak.membermanagementservice.web
 
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticateRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeRequest
-import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationService
-import hyeon9mak.membermanagementservice.application.authentication.MemberEmailLoginRequest
-import hyeon9mak.membermanagementservice.application.authentication.MemberLoginResponse
-import hyeon9mak.membermanagementservice.application.authentication.MemberNicknameLoginRequest
-import hyeon9mak.membermanagementservice.application.authentication.MemberPhoneNumberLoginRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeService
+import hyeon9mak.membermanagementservice.application.login.MemberEmailLoginRequest
+import hyeon9mak.membermanagementservice.application.login.MemberLoginResponse
+import hyeon9mak.membermanagementservice.application.login.MemberNicknameLoginRequest
+import hyeon9mak.membermanagementservice.application.login.MemberPhoneNumberLoginRequest
+import hyeon9mak.membermanagementservice.application.login.MemberLoginService
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterRequest
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterResponse
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterService
@@ -25,7 +26,8 @@ import javax.validation.Valid
 @RestController
 class MemberController(
     private val memberRegisterService: MemberRegisterService,
-    private val memberAuthenticationService: MemberAuthenticationService,
+    private val memberLoginService: MemberLoginService,
+    private val memberAuthenticationCodeService: MemberAuthenticationCodeService,
 ) {
     @PostMapping("/register")
     fun register(@Valid @RequestBody request: MemberRegisterRequest): ResponseEntity<MemberRegisterResponse> {
@@ -37,31 +39,31 @@ class MemberController(
     fun generateAuthenticationCode(
         @Valid @RequestBody request: MemberAuthenticationCodeRequest
     ): ResponseEntity<Void> {
-        memberAuthenticationService.generateAuthenticationCodeForRegister(request = request)
+        memberAuthenticationCodeService.generateAuthenticationCodeForRegister(request = request)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     @PutMapping("/authentication")
     fun authenticate(@Valid @RequestBody request: MemberAuthenticateRequest): ResponseEntity<Void> {
-        memberAuthenticationService.authenticate(request = request)
+        memberAuthenticationCodeService.authenticate(request = request)
         return ResponseEntity.ok().build()
     }
 
     @PostMapping("/login/email")
     fun login(@Valid @RequestBody request: MemberEmailLoginRequest): ResponseEntity<MemberLoginResponse> {
-        val response = memberAuthenticationService.generateTokenByEmailLogin(request = request)
+        val response = memberLoginService.generateTokenByEmailLogin(request = request)
         return ResponseEntity.ok(response)
     }
 
     @PostMapping("/login/nickname")
     fun login(@Valid @RequestBody request: MemberNicknameLoginRequest): ResponseEntity<MemberLoginResponse> {
-        val response = memberAuthenticationService.generateTokenByNicknameLogin(request = request)
+        val response = memberLoginService.generateTokenByNicknameLogin(request = request)
         return ResponseEntity.ok(response)
     }
 
     @PostMapping("/login/phone-number")
     fun login(@Valid @RequestBody request: MemberPhoneNumberLoginRequest): ResponseEntity<MemberLoginResponse> {
-        val response = memberAuthenticationService.generateTokenByPhoneNumberLogin(request = request)
+        val response = memberLoginService.generateTokenByPhoneNumberLogin(request = request)
         return ResponseEntity.ok(response)
     }
 }

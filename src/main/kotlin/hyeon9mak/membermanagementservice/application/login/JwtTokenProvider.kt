@@ -1,4 +1,4 @@
-package hyeon9mak.membermanagementservice.application.authentication
+package hyeon9mak.membermanagementservice.application.login
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm

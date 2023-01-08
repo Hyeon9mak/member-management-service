@@ -1,4 +1,4 @@
-package hyeon9mak.membermanagementservice.application.authentication
+package hyeon9mak.membermanagementservice.application.login
 
 import hyeon9mak.membermanagementservice.application.read.MemberReadService
 import org.springframework.core.MethodParameter

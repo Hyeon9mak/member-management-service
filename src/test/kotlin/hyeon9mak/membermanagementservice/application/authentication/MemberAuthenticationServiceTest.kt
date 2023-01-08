@@ -13,11 +13,10 @@ internal class MemberAuthenticationServiceTest : FreeSpec({
     val memberRepository = InMemoryMemberRepository()
     val memberAuthenticationCodeRepository = InMemoryMemberAuthenticationCodeRepository()
     val smsMessageSender = FakeSmsMessageSender()
-    val memberAuthenticationService = MemberAuthenticationService(
+    val memberAuthenticationCodeService = MemberAuthenticationCodeService(
         authenticationCodeRepository = memberAuthenticationCodeRepository,
         memberRepository = memberRepository,
         smsMessageSender = smsMessageSender,
-        jwtTokenProvider = JwtTokenProvider()
     )
 
     beforeEach {
@@ -27,7 +26,7 @@ internal class MemberAuthenticationServiceTest : FreeSpec({
 
     "8자리 회원 인증 코드를 발급받을 수 있다." {
         val request = MemberAuthenticationCodeRequest(phoneNumber = "01012345678")
-        memberAuthenticationService.generateAuthenticationCodeForRegister(request = request)
+        memberAuthenticationCodeService.generateAuthenticationCodeForRegister(request = request)
         memberAuthenticationCodeRepository.existsByPhoneNumber(phoneNumber = request.phoneNumber) shouldBe true
     }
 
@@ -35,7 +34,7 @@ internal class MemberAuthenticationServiceTest : FreeSpec({
         memberRepository.save(Member(phoneNumber = "01012345678"))
         val request = MemberAuthenticationCodeRequest(phoneNumber = "01012345678")
         val exception = shouldThrowExactly<IllegalStateException> {
-            memberAuthenticationService.generateAuthenticationCodeForRegister(request = request)
+            memberAuthenticationCodeService.generateAuthenticationCodeForRegister(request = request)
         }
 
         exception.message shouldBe "이미 전화번호가 동일한 회원계정이 존재합니다."

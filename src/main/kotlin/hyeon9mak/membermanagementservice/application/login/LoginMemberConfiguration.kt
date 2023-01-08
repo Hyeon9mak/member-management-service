@@ -1,4 +1,4 @@
-package hyeon9mak.membermanagementservice.application.authentication
+package hyeon9mak.membermanagementservice.application.login
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
