@@ -13,7 +13,8 @@ class MemberLoginService(
 ) {
     fun generateTokenByEmailLogin(request: MemberEmailLoginRequest): MemberLoginResponse {
         val member = findMemberByEmail(email = request.email)
-        member.authenticate(password = MemberPassword(value = request.password))
+        val password = MemberPassword.createWithEncrypt(value = request.password)
+        member.authenticate(password = password)
         val token = jwtTokenProvider.createToken(payload = member.getEmailValue())
         return MemberLoginResponse(token = token)
     }
@@ -24,7 +25,8 @@ class MemberLoginService(
 
     fun generateTokenByNicknameLogin(request: MemberNicknameLoginRequest): MemberLoginResponse {
         val member = findMemberByNickname(nickname = request.nickname)
-        member.authenticate(password = MemberPassword(value = request.password))
+        val password = MemberPassword.createWithEncrypt(value = request.password)
+        member.authenticate(password = password)
         val token = jwtTokenProvider.createToken(payload = member.getEmailValue())
         return MemberLoginResponse(token = token)
     }
@@ -35,7 +37,8 @@ class MemberLoginService(
 
     fun generateTokenByPhoneNumberLogin(request: MemberPhoneNumberLoginRequest): MemberLoginResponse {
         val member = findMemberByPhoneNumber(phoneNumber = request.phoneNumber)
-        member.authenticate(password = MemberPassword(value = request.password))
+        val password = MemberPassword.createWithEncrypt(value = request.password)
+        member.authenticate(password = password)
         val token = jwtTokenProvider.createToken(payload = member.getEmailValue())
         return MemberLoginResponse(token = token)
     }

@@ -10,7 +10,7 @@ object MemberFixture {
         phoneNumber: String = "01012345678",
     ): Member = Member(
         email = MemberEmail(email),
-        password = MemberPassword(password),
+        password = MemberPassword.createWithEncrypt(value = password),
         name = MemberName.of(name),
         nickname = MemberNickname(nickname),
         phoneNumber = MemberPhoneNumber(phoneNumber),
