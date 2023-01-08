@@ -16,7 +16,6 @@ class SENSApiClientConfiguration {
     @Bean
     fun errorDecoder(): ErrorDecoder = SENSApiClientErrorDecoder()
 
-    // TODO: URL 에서 HOST 제거 안해도 되는지 확인
     @Bean
     fun requestInterceptor(
         @Value("\${naver-cloud.api.access-key}") accessKey: String,
@@ -24,6 +23,7 @@ class SENSApiClientConfiguration {
     ): RequestInterceptor = RequestInterceptor { requestTemplate: RequestTemplate ->
         val timestamp = System.currentTimeMillis() // current timestamp (epoch)
         val signature = makeSignature(
+            method = requestTemplate.method(),
             url = requestTemplate.url(),
             accessKey = accessKey,
             secretKey = secretKey,
@@ -38,12 +38,13 @@ class SENSApiClientConfiguration {
      * https://api.ncloud-docs.com/docs/common-ncpapi
      */
     fun makeSignature(
+        method: String,
         url: String,
         accessKey: String,
         secretKey: String,
         timestamp: Long,
     ): String {
-        val message = "GET $url\n$timestamp\n$accessKey"
+        val message = "$method $url\n$timestamp\n$accessKey"
 
         val signingKey = SecretKeySpec(secretKey.toByteArray(), "HmacSHA256")
         val mac: Mac = Mac.getInstance("HmacSHA256")
