@@ -4,9 +4,6 @@ import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.persistence.Index
 import javax.persistence.Table
 
@@ -18,11 +15,6 @@ import javax.persistence.Table
 )
 @Entity
 class MemberAuthenticationCode(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    val id: Long = 0,
-
     @Column(nullable = false, length = 11)
     val phoneNumber: MemberPhoneNumber,
 
@@ -34,7 +26,7 @@ class MemberAuthenticationCode(
 
     @Column(nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now()
-) {
+) : BaseEntity() {
     @Column(nullable = false)
     private val expiredAt: LocalDateTime = createdAt.plusMinutes(10L)
 
@@ -50,19 +42,4 @@ class MemberAuthenticationCode(
     }
 
     fun generateMessage(): String = "[인증 코드] $code"
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as MemberAuthenticationCode
-
-        if (id != other.id) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
 }

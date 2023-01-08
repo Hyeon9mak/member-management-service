@@ -10,7 +10,6 @@ object MemberAuthenticationCodeFixture {
         authenticated: Boolean = false,
         createdAt: LocalDateTime = LocalDateTime.now()
     ) = MemberAuthenticationCode(
-        id = 0,
         phoneNumber = MemberPhoneNumber(phoneNumber),
         code = code,
         authenticated = authenticated,

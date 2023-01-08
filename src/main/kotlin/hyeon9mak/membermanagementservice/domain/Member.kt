@@ -2,9 +2,6 @@ package hyeon9mak.membermanagementservice.domain
 
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.persistence.Index
 import javax.persistence.Table
 
@@ -17,12 +14,7 @@ import javax.persistence.Table
     ]
 )
 @Entity
-class Member private constructor(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    val id: Long = 0,
-
+class Member(
     @Column(nullable = false, unique = true)
     val email: MemberEmail,
 
@@ -37,7 +29,7 @@ class Member private constructor(
 
     @Column(nullable = false, unique = true, length = 11)
     val phoneNumber: MemberPhoneNumber,
-) {
+) : BaseEntity() {
     fun getEmailValue(): String = email.value
 
     fun getNameValue(): String = name.value
@@ -47,7 +39,7 @@ class Member private constructor(
     fun getPhoneNumberValue(): String = phoneNumber.value
 
     companion object {
-        fun withoutId(
+        fun from(
             email: String,
             password: String,
             name: String,
@@ -60,36 +52,5 @@ class Member private constructor(
             nickname = MemberNickname(nickname),
             phoneNumber = MemberPhoneNumber(phoneNumber),
         )
-
-        fun withId(
-            id: Long,
-            email: String,
-            password: String,
-            name: String,
-            nickname: String,
-            phoneNumber: String
-        ) = Member(
-            id = id,
-            email = MemberEmail(email),
-            password = MemberPassword(password),
-            name = MemberName.of(name),
-            nickname = MemberNickname(nickname),
-            phoneNumber = MemberPhoneNumber(phoneNumber),
-        )
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Member
-
-        if (id != other.id) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
     }
 }

@@ -12,7 +12,7 @@ class InMemoryMemberAuthenticationCodeRepository : MemberAuthenticationCodeRepos
 
     override fun save(memberAuthenticationCode: MemberAuthenticationCode): MemberAuthenticationCode {
         val id = atomicLong.incrementAndGet()
-        val idField = memberAuthenticationCode::class.java.getDeclaredField("id")
+        val idField = memberAuthenticationCode::class.java.superclass.getDeclaredField("id")
         idField.isAccessible = true
         idField.set(memberAuthenticationCode, id)
         codes[id] = memberAuthenticationCode

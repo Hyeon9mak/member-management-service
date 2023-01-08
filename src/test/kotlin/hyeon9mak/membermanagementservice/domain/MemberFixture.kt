@@ -8,11 +8,11 @@ object MemberFixture {
         name: String = "최현구",
         nickname: String = "hyeon9mak",
         phoneNumber: String = "01012345678",
-    ): Member = Member.withoutId(
-        email = email,
-        password = password,
-        name = name,
-        nickname = nickname,
-        phoneNumber = phoneNumber,
+    ): Member = Member(
+        email = MemberEmail(email),
+        password = MemberPassword(password),
+        name = MemberName.of(name),
+        nickname = MemberNickname(nickname),
+        phoneNumber = MemberPhoneNumber(phoneNumber),
     )
 }

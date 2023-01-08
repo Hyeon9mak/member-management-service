@@ -13,7 +13,7 @@ class MemberRegisterService(
     private val memberAuthenticationCodeRepository: MemberAuthenticationCodeRepository,
 ) {
     fun register(request: MemberRegisterRequest): MemberRegisterResponse {
-        val member = Member.withoutId(
+        val member = Member.from(
             email = request.email,
             password = request.password,
             name = request.name,

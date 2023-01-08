@@ -14,7 +14,7 @@ class InMemoryMemberRepository : MemberRepository {
 
     override fun save(member: Member): Member {
         val id = atomicLong.incrementAndGet()
-        val idField = member::class.java.getDeclaredField("id")
+        val idField = member::class.java.superclass.getDeclaredField("id")
         idField.isAccessible = true
         idField.set(member, id)
         members[id] = member
