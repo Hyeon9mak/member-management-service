@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
 	id("org.springframework.boot") version "2.7.6"
@@ -6,6 +7,7 @@ plugins {
 	kotlin("jvm") version "1.7.22"
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
+	kotlin("kapt")  version "1.6.10"
 	id("org.flywaydb.flyway") version "7.12.0"
 }
 
@@ -32,6 +34,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	api("com.querydsl:querydsl-jpa")
+	kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5") // spring-boot 2.7.6 버전과 호환
 
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
