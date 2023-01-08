@@ -5,6 +5,8 @@ import hyeon9mak.membermanagementservice.application.authentication.MemberAuthen
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationService
 import hyeon9mak.membermanagementservice.application.authentication.MemberEmailLoginRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberLoginResponse
+import hyeon9mak.membermanagementservice.application.authentication.MemberNicknameLoginRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberPhoneNumberLoginRequest
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterRequest
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterResponse
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterService
@@ -48,6 +50,18 @@ class MemberController(
     @PostMapping("/login/email")
     fun login(@Valid @RequestBody request: MemberEmailLoginRequest): ResponseEntity<MemberLoginResponse> {
         val response = memberAuthenticationService.generateTokenByEmailLogin(request = request)
+        return ResponseEntity.ok(response)
+    }
+
+    @PostMapping("/login/nickname")
+    fun login(@Valid @RequestBody request: MemberNicknameLoginRequest): ResponseEntity<MemberLoginResponse> {
+        val response = memberAuthenticationService.generateTokenByNicknameLogin(request = request)
+        return ResponseEntity.ok(response)
+    }
+
+    @PostMapping("/login/phone-number")
+    fun login(@Valid @RequestBody request: MemberPhoneNumberLoginRequest): ResponseEntity<MemberLoginResponse> {
+        val response = memberAuthenticationService.generateTokenByPhoneNumberLogin(request = request)
         return ResponseEntity.ok(response)
     }
 }
