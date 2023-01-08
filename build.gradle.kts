@@ -51,6 +51,8 @@ dependencies {
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 	testImplementation("io.kotest:kotest-runner-junit5:5.5.4")
 	testImplementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	implementation ("org.springdoc:springdoc-openapi-ui:1.6.14")
 }
 
 flyway {

@@ -1,26 +1,26 @@
 package hyeon9mak.membermanagementservice.web
 
-import hyeon9mak.membermanagementservice.application.authentication.MemberRegisterAuthenticateRequest
-import hyeon9mak.membermanagementservice.application.authentication.MemberRegisterAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberAuthenticationCodeService
 import hyeon9mak.membermanagementservice.application.authentication.MemberPasswordResetAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberPasswordResetRequest
 import hyeon9mak.membermanagementservice.application.authentication.MemberPasswordResetService
+import hyeon9mak.membermanagementservice.application.authentication.MemberRegisterAuthenticateRequest
+import hyeon9mak.membermanagementservice.application.authentication.MemberRegisterAuthenticationCodeRequest
 import hyeon9mak.membermanagementservice.application.login.LoginMember
 import hyeon9mak.membermanagementservice.application.login.Logined
 import hyeon9mak.membermanagementservice.application.login.MemberEmailLoginRequest
 import hyeon9mak.membermanagementservice.application.login.MemberLoginResponse
+import hyeon9mak.membermanagementservice.application.login.MemberLoginService
 import hyeon9mak.membermanagementservice.application.login.MemberNicknameLoginRequest
 import hyeon9mak.membermanagementservice.application.login.MemberPhoneNumberLoginRequest
-import hyeon9mak.membermanagementservice.application.login.MemberLoginService
 import hyeon9mak.membermanagementservice.application.read.MemberInfoResponse
 import hyeon9mak.membermanagementservice.application.read.MemberInfoService
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterRequest
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterResponse
 import hyeon9mak.membermanagementservice.application.register.MemberRegisterService
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
-@Validated
+@Tag(name = "회원 관련 API")
 @RequestMapping("/api/v1/members")
 @RestController
 class MemberController(
