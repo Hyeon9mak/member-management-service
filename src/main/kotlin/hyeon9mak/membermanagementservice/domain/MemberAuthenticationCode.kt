@@ -42,4 +42,6 @@ class MemberAuthenticationCode(
     }
 
     fun generateMessage(): String = "[인증 코드] $code"
+
+    fun getPhoneNumberValue(): String = phoneNumber.value
 }

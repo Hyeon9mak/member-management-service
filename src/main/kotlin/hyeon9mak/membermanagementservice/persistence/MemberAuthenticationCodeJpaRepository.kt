@@ -5,4 +5,5 @@ import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCodeReposito
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface MemberAuthenticationCodeJpaRepository : MemberAuthenticationCodeRepository,
-    JpaRepository<MemberAuthenticationCode, Long>
+    JpaRepository<MemberAuthenticationCode, Long>,
+    MemberAuthenticationCodeQueryDslRepository

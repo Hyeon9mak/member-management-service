@@ -20,8 +20,8 @@ class InMemoryMemberAuthenticationCodeRepository : MemberAuthenticationCodeRepos
 
     override fun findLastByPhoneNumber(phoneNumber: String): MemberAuthenticationCode =
         codes.values
-            .filter { it.phoneNumber.value == phoneNumber }
-            .maxBy { it.createdAt }
+            .filter { it.getPhoneNumberValue() == phoneNumber }
+            .maxBy { it.id }
 
     fun init() {
         codes.clear()
@@ -29,5 +29,5 @@ class InMemoryMemberAuthenticationCodeRepository : MemberAuthenticationCodeRepos
     }
 
     fun existsByPhoneNumber(phoneNumber: String): Boolean =
-        codes.values.any { it.phoneNumber.value == phoneNumber }
+        codes.values.any { it.getPhoneNumberValue() == phoneNumber }
 }
