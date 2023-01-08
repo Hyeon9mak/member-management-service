@@ -15,4 +15,6 @@ interface MemberRepository {
     fun findByNickname(nickname: String): Member?
 
     fun findByPhoneNumber(phoneNumber: String): Member?
+
+    fun findByEmailAndNameAndPhoneNumber(email: String, name: String, phoneNumber: String): Member?
 }

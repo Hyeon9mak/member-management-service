@@ -108,4 +108,48 @@ internal class MemberJpaRepositoryTest(
         val found = memberRepository.findByPhoneNumber(phoneNumber = member.getPhoneNumberValue())
         found shouldBe member
     }
+
+    "이메일, 이름, 전화번호로 회원을 조회할 때" - {
+        "모두 일치하는 회원정보를 조회할 수 있다." {
+            val member = memberRepository.save(Member(
+                email = "jinha3507@gmail.com",
+                name = "최현구",
+                phoneNumber = "01012345678",
+            ))
+
+            val found = memberRepository.findByEmailAndNameAndPhoneNumber(
+                email = "jinha3507@gmail.com",
+                name = "최현구",
+                phoneNumber = "01012345678",
+            )
+
+            found shouldBe member
+        }
+
+        "하나라도 일치하지 않으면 조회할 수 없다." {
+            memberRepository.save(Member(
+                email = "jinha3507@gmail.com",
+                name = "최현구",
+                phoneNumber = "01012345678",
+            ))
+
+            memberRepository.findByEmailAndNameAndPhoneNumber(
+                email = "abc@def.com",
+                name = "최현구",
+                phoneNumber = "01012345678",
+            ) shouldBe null
+
+            memberRepository.findByEmailAndNameAndPhoneNumber(
+                email = "jinha3507@gmail.com",
+                name = "CHOI HYEONGU",
+                phoneNumber = "01012345678",
+            ) shouldBe null
+
+            memberRepository.findByEmailAndNameAndPhoneNumber(
+                email = "jinha3507@gmail.com",
+                name = "최현구",
+                phoneNumber = "01099999999",
+            ) shouldBe null
+        }
+    }
 })

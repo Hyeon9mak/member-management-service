@@ -36,6 +36,16 @@ class InMemoryMemberRepository : MemberRepository {
     override fun findByPhoneNumber(phoneNumber: String): Member =
         members.values.first { it.phoneNumber.value == phoneNumber }
 
+    override fun findByEmailAndNameAndPhoneNumber(
+        email: String,
+        name: String,
+        phoneNumber: String
+    ): Member = members.values.first {
+        it.email.value == email &&
+        it.name.value == name &&
+        it.phoneNumber.value == phoneNumber
+    }
+
     fun init() {
         members.clear()
         atomicLong.set(0)
