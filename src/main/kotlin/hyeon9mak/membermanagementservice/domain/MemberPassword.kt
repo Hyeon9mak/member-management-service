@@ -7,8 +7,8 @@ import javax.naming.AuthenticationException
 value class MemberPassword private constructor(
     val value: String
 ) {
-    fun authenticate(password: MemberPassword) {
-        if (PASSWORD_ENCODER.matches(password.value, this.value).not()) {
+    fun authenticate(other: MemberPassword) {
+        if (this.value != other.value) {
             throw AuthenticationException("회원 정보가 일치하지 않습니다.")
         }
     }

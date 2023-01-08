@@ -1,11 +1,20 @@
 package hyeon9mak.membermanagementservice.domain
 
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.inspectors.forAll
 import io.kotest.matchers.shouldBe
+import javax.naming.AuthenticationException
 
 internal class MemberPasswordTest : FreeSpec({
+
+    "비밀번호가 일치하는지 확인할 수 있다." {
+        val password = MemberPassword.createWithEncrypt("password123!@#")
+        val invalidPassword = MemberPassword.createWithEncrypt("invalid321#@!")
+        shouldNotThrowAny { password.authenticate(password) }
+        shouldThrowExactly<AuthenticationException> { password.authenticate(invalidPassword) }
+    }
 
     "비밀번호 길이가 8 미만이거나 20 초과일 경우 예외가 발생한다." - {
         listOf(

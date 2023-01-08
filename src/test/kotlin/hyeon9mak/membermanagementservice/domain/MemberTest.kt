@@ -1,6 +1,7 @@
 package hyeon9mak.membermanagementservice.domain
 
 import hyeon9mak.membermanagementservice.domain.MemberFixture.Member
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FreeSpec
 import javax.naming.AuthenticationException
@@ -11,5 +12,12 @@ internal class MemberTest : FreeSpec({
         val member = Member(password = "password123!@#")
         val invalidPassword = MemberPassword.createWithEncrypt("invalid321#@!")
         shouldThrowExactly<AuthenticationException> { member.authenticate(password = invalidPassword) }
+    }
+
+    "비밀번호를 변경할 수 있다." {
+        val member = Member(password = "password123!@#")
+        val newPassword = MemberPassword.createWithEncrypt("newPassword321#@!")
+        member.resetPassword(newPassword)
+        shouldNotThrowAny { member.authenticate(newPassword) }
     }
 })
