@@ -1,11 +1,11 @@
 package hyeon9mak.membermanagementservice.application.login
 
+import hyeon9mak.membermanagementservice.exception.MemberAuthenticationException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Component
 import java.util.*
-import javax.naming.AuthenticationException
 
 @Component
 class JwtTokenProvider {
@@ -32,7 +32,7 @@ class JwtTokenProvider {
                 .body
                 .subject
         } catch (e: Exception) {
-            throw AuthenticationException("올바른 인증 정보가 아닙니다.")
+            throw MemberAuthenticationException("올바른 인증 정보가 아닙니다.")
         }
     }
 

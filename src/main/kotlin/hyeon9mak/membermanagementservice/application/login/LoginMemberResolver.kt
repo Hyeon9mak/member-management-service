@@ -1,13 +1,13 @@
 package hyeon9mak.membermanagementservice.application.login
 
 import hyeon9mak.membermanagementservice.application.read.MemberInfoService
+import hyeon9mak.membermanagementservice.exception.MemberAuthenticationException
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
-import javax.naming.AuthenticationException
 
 @Component
 class LoginMemberResolver(
@@ -34,17 +34,17 @@ class LoginMemberResolver(
     }
 
     private fun NativeWebRequest.getAuthorizationFromHeader(): String =
-        this.getHeader(AUTHORIZATION) ?: throw AuthenticationException("인증 정보가 존재하지 않습니다.")
+        this.getHeader(AUTHORIZATION) ?: throw MemberAuthenticationException("인증 정보가 존재하지 않습니다.")
 
     private fun validateTokenType(tokenType: String) {
         if (tokenType != BEARER) {
-            throw AuthenticationException("올바른 인증 정보가 아닙니다.")
+            throw MemberAuthenticationException("올바른 인증 정보가 아닙니다.")
         }
     }
 
     private fun validateExistsMember(email: String) {
         if (memberInfoService.existsMemberByEmail(email).not()) {
-            throw AuthenticationException("존재하지 않는 회원입니다.")
+            throw MemberAuthenticationException("존재하지 않는 회원입니다.")
         }
     }
 
