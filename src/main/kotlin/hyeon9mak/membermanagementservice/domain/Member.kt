@@ -32,8 +32,8 @@ class Member(
     val phoneNumber: MemberPhoneNumber,
 ) : BaseEntity() {
 
-    fun authenticate(password: MemberPassword) {
-        this.password.authenticate(password)
+    fun authenticate(plainPassword: String) {
+        this.password.authenticate(plainPassword = plainPassword)
     }
 
     fun resetPassword(password: MemberPassword) {

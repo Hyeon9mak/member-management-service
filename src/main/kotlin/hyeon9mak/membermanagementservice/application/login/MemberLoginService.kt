@@ -1,6 +1,5 @@
 package hyeon9mak.membermanagementservice.application.login
 
-import hyeon9mak.membermanagementservice.domain.MemberPassword
 import hyeon9mak.membermanagementservice.domain.MemberRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,8 +12,7 @@ class MemberLoginService(
 ) {
     fun generateTokenByEmailLogin(request: MemberEmailLoginRequest): MemberLoginResponse {
         val member = findMemberByEmail(email = request.email)
-        val password = MemberPassword.createWithEncrypt(value = request.password)
-        member.authenticate(password = password)
+        member.authenticate(plainPassword = request.password)
         val token = jwtTokenProvider.createToken(payload = member.getEmailValue())
         return MemberLoginResponse(token = token)
     }
@@ -25,8 +23,7 @@ class MemberLoginService(
 
     fun generateTokenByNicknameLogin(request: MemberNicknameLoginRequest): MemberLoginResponse {
         val member = findMemberByNickname(nickname = request.nickname)
-        val password = MemberPassword.createWithEncrypt(value = request.password)
-        member.authenticate(password = password)
+        member.authenticate(plainPassword = request.password)
         val token = jwtTokenProvider.createToken(payload = member.getEmailValue())
         return MemberLoginResponse(token = token)
     }
@@ -37,8 +34,7 @@ class MemberLoginService(
 
     fun generateTokenByPhoneNumberLogin(request: MemberPhoneNumberLoginRequest): MemberLoginResponse {
         val member = findMemberByPhoneNumber(phoneNumber = request.phoneNumber)
-        val password = MemberPassword.createWithEncrypt(value = request.password)
-        member.authenticate(password = password)
+        member.authenticate(plainPassword = request.password)
         val token = jwtTokenProvider.createToken(payload = member.getEmailValue())
         return MemberLoginResponse(token = token)
     }

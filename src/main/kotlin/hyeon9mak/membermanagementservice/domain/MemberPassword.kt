@@ -7,8 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 value class MemberPassword private constructor(
     val value: String
 ) {
-    fun authenticate(other: MemberPassword) {
-        if (this.value != other.value) {
+    fun authenticate(plainPassword: String) {
+        if (PASSWORD_ENCODER.matches(plainPassword, this.value).not()) {
             throw MemberAuthenticationException("회원 정보가 일치하지 않습니다.")
         }
     }
