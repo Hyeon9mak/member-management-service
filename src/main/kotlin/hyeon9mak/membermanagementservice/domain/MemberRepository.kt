@@ -1,8 +1,5 @@
 package hyeon9mak.membermanagementservice.domain
 
-import org.springframework.stereotype.Repository
-
-@Repository
 interface MemberRepository {
 
     fun save(member: Member): Member
