@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  member-management-service-db:
+    container_name: member-management-service-mariadb
+    image: mariadb:latest
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - "53306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: member_management_service
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: Asia/Seoul
