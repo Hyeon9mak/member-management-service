@@ -1,12 +1,32 @@
 version: "3.9"
 services:
+
+  member-management-service-proxy:
+    container_name: member-management-service-proxy
+    image: nginx:1.19.6-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      - member-management-service-app
+
+  member-management-service-app:
+    container_name: member-management-service-app
+    image: member-management-service-app:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - member-management-service-db
+
   member-management-service-db:
     container_name: member-management-service-mariadb
     image: mariadb:10.5.18
     platform: linux/x86_64
     restart: always
     ports:
-      - "53306:3306"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: member_management_service
