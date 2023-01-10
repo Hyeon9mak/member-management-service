@@ -10,8 +10,6 @@ plugins {
 	id("org.flywaydb.flyway") version "7.12.0"
 }
 
-group = "hyeon9mak"
-version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -69,4 +67,13 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.jar {
+	enabled = false
+}
+
+tasks.bootJar {
+	enabled = true
+	archiveFileName.set("member-management-service.jar")
 }

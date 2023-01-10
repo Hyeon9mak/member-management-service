@@ -1,16 +1,6 @@
 spring:
-  datasource:
-    url: jdbc:mariadb://member-management-service-mariadb:53306/member_management_service
-    username: user
-    password: password
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+  profiles:
+    default: local
 
 naver-cloud:
   api:
@@ -29,3 +19,43 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/member_management_service
+    username: user
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: jdbc:mariadb://member-management-service-mariadb:3306/member_management_service
+    username: user
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
