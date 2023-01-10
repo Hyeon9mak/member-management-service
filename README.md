@@ -1,6 +1,53 @@
-# 회원 관리 서비스
+# 회원 관리 서비스 (https://hyeon9mak.o-r.kr/swagger-ui/index.html)
 
-## 특징
+## 프로젝트 구조
+
+- 최대한 저렴하게 구성하기 위해 naver cloud platform server 1대 사용
+
+![](docs/SCR-20230110-nxl.png)
+
+### 회원가입 flow
+
+![](docs/SCR-20230110-o2j.png)
+
+### 비밀번호 재설정 flow
+
+![](docs/40F553C3-18C1-44A5-B26C-7F6200F245B4.png)
+
+### 로그인, 내 정보 보기 flow
+
+![](docs/7AC50DDD-D27B-4573-999C-D2EC1F84A60D.png)
+
+<br>
+
+## 로컬 실행 방법
+
+1. `/docker/docker-compose.yml` 를 이용하여 컨테이너에 mariadb 를 띄운다.
+```
+$ docker-compose up -d member-management-service-mariadb
+```
+
+2. gradle 빌드를 진행한다.
+
+```
+$ ./gradlew clean build
+```
+
+3. `/dockerDockerfile`를 이용해 `/build/libs/member-management-service.jar`를 이미지화 한다.
+
+```
+$ docker build -t member-management-service-app:0.0.1 -f docker/Dockerfile . 
+```
+
+4. 환경변수 주입과 동시에 `member-management-service` 이미지를 컨테이너에 띄운다.
+
+```
+$ docker run -p 8080:8080 --network docker_member-management-service-network -e PROFILE=local -e NAVER_CLOUD_API_ACCESS_KEY={NCP API ACCESS KEY} -e NAVER_CLOUD_API_SECRET_KEY={NCP API ACCESS KEY} -e NAVER_CLOUD_SENS_API_SERVICE_ID={NCP SENS API SERVICE ID} -e NAVER_CLOUD_SENS_API_MESSAGE_FROM={SMS SENDER NUMBER} member-management-service-app:0.0.1
+```
+
+<br>
+
+## 특징, FAQ
 
 - `MemberAuthenticationCodeRepository.findLastOneByPhoneNumber` 명칭과 실제 쿼리가 다름(MySQL 에는 `Last` 예약어가 없음)
 - `LastOne` 이라는 가독성을 포기하고 싶지 않아 QueryDSL 을 적용.
@@ -10,9 +57,6 @@
   - `Member` DomainEntpty 가 JPA Entity 로서의 역할도 완전히 가능할 정도로 강결합되어 있음. 
   - DomainEntity 와 JPAEntity 를 온전히 분리할까 하다가 이미 Web, Service 계층도 Spring 어노테이션에 점철되어 있는걸 보고 포기.
   - value class 를 활용한 덕분에 `@Embedded` , `@Embeddable` 어노테이션이 필요 없음
-
-## FAQ
-
 - CORS?
   - protocol(http), host(hyeon9mak.o-r.kr), port(443) 으로만 자원을 제공하므로 CORS 문제는 따로 핸들링할 필요가 없었음!
 - 이벤트 기반
