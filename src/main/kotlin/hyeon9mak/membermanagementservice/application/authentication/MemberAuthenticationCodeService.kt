@@ -4,6 +4,7 @@ import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCode
 import hyeon9mak.membermanagementservice.domain.MemberAuthenticationCodeRepository
 import hyeon9mak.membermanagementservice.domain.MemberPhoneNumber
 import hyeon9mak.membermanagementservice.domain.MemberRepository
+import hyeon9mak.membermanagementservice.domain.isNotExistsPhoneNumber
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,7 +23,7 @@ class MemberAuthenticationCodeService(
     }
 
     private fun validateAlreadyExistsMember(phoneNumber: MemberPhoneNumber) {
-        check(memberRepository.existsByPhoneNumber(phoneNumber = phoneNumber.value).not()) { "이미 전화번호가 동일한 회원계정이 존재합니다." }
+        check(memberRepository.isNotExistsPhoneNumber(phoneNumber = phoneNumber)) { "이미 전화번호가 동일한 회원계정이 존재합니다." }
     }
 
     fun generateAuthenticationCodeForPasswordReset(request: MemberPasswordResetAuthenticationCodeRequest) {

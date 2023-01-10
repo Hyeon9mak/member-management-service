@@ -1,6 +1,9 @@
 package hyeon9mak.membermanagementservice.application.read
 
+import hyeon9mak.membermanagementservice.domain.MemberEmail
 import hyeon9mak.membermanagementservice.domain.MemberRepository
+import hyeon9mak.membermanagementservice.domain.findByEmailOrThrow
+import hyeon9mak.membermanagementservice.domain.isNotExistsEmail
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -9,13 +12,10 @@ import org.springframework.transaction.annotation.Transactional
 class MemberInfoService(
     private val memberRepository: MemberRepository,
 ) {
-    fun existsMemberByEmail(email: String) = memberRepository.existsByEmail(email = email)
+    fun notExistsMemberByEmail(email: MemberEmail) = memberRepository.isNotExistsEmail(email = email)
 
     fun getInfoByEmail(email: String): MemberInfoResponse {
-        val member = findMemberByEmail(email = email)
+        val member = memberRepository.findByEmailOrThrow(email = MemberEmail(value = email))
         return MemberInfoResponse.from(member = member)
     }
-
-    private fun findMemberByEmail(email: String) = memberRepository.findByEmail(email = email)
-        ?: throw IllegalArgumentException("이메일에 해당하는 회원정보가 없습니다.")
 }

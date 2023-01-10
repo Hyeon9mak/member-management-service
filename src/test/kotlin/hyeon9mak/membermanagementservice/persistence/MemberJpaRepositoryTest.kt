@@ -1,6 +1,9 @@
 package hyeon9mak.membermanagementservice.persistence
 
 import hyeon9mak.membermanagementservice.domain.MemberFixture.Member
+import hyeon9mak.membermanagementservice.domain.isNotExistsEmail
+import hyeon9mak.membermanagementservice.domain.isNotExistsNickname
+import hyeon9mak.membermanagementservice.domain.isNotExistsPhoneNumber
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
@@ -79,16 +82,19 @@ internal class MemberJpaRepositoryTest(
     "이메일로 회원 정보 존재여부를 확인할 수 있다." {
         val member = memberRepository.save(Member())
         memberRepository.existsByEmail(email = member.getEmailValue()) shouldBe true
+        memberRepository.isNotExistsEmail(email = member.email) shouldBe false
     }
 
     "닉네임으로 회원 정보 존재여부를 확인할 수 있다." {
         val member = memberRepository.save(Member())
         memberRepository.existsByNickname(nickname = member.getNicknameValue()) shouldBe true
+        memberRepository.isNotExistsNickname(nickname = member.nickname) shouldBe false
     }
 
     "전화번호로 회원 정보 존재여부를 확인할 수 있다." {
         val member = memberRepository.save(Member())
         memberRepository.existsByPhoneNumber(phoneNumber = member.getPhoneNumberValue()) shouldBe true
+        memberRepository.isNotExistsPhoneNumber(phoneNumber = member.phoneNumber) shouldBe false
     }
 
     "이메일로 회원 정보를 조회할 수 있다." {

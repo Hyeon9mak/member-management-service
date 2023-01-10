@@ -1,6 +1,7 @@
 package hyeon9mak.membermanagementservice.application.login
 
 import hyeon9mak.membermanagementservice.application.read.MemberInfoService
+import hyeon9mak.membermanagementservice.domain.MemberEmail
 import hyeon9mak.membermanagementservice.exception.MemberAuthenticationException
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
@@ -28,9 +29,9 @@ class LoginMemberResolver(
         val splitAuthorization = authorization.split(BLANK)
         val (tokenType, token) = splitAuthorization[0] to splitAuthorization[1]
         validateTokenType(tokenType)
-        val email = jwtTokenProvider.parseToken(token = token)
-        validateExistsMember(email)
-        return LoginMember(email = email)
+        val email = MemberEmail(jwtTokenProvider.parseToken(token = token))
+        validateExistsMember(email = email)
+        return LoginMember(email = email.value)
     }
 
     private fun NativeWebRequest.getAuthorizationFromHeader(): String =
@@ -42,8 +43,8 @@ class LoginMemberResolver(
         }
     }
 
-    private fun validateExistsMember(email: String) {
-        if (memberInfoService.existsMemberByEmail(email).not()) {
+    private fun validateExistsMember(email: MemberEmail) {
+        if (memberInfoService.notExistsMemberByEmail(email = email)) {
             throw MemberAuthenticationException("존재하지 않는 회원입니다.")
         }
     }
