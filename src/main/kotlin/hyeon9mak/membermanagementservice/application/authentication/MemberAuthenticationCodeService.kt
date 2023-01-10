@@ -48,7 +48,7 @@ class MemberAuthenticationCodeService(
 
     fun authenticate(request: MemberRegisterAuthenticateRequest) {
         val authenticationCode = findLastOneByPhoneNumber(phoneNumber = request.phoneNumber)
-        authenticationCode.authenticate(code = request.code)
+        authenticationCode.authenticate(code = request.authenticationCode)
     }
 
     private fun findLastOneByPhoneNumber(phoneNumber: String) =
