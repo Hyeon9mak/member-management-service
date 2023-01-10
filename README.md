@@ -1,5 +1,25 @@
 # 회원 관리 서비스
 
+## 특징
+
+- `MemberAuthenticationCodeRepository.findLastOneByPhoneNumber` 명칭과 실제 쿼리가 다름(MySQL 에는 `Last` 예약어가 없음)
+- `LastOne` 이라는 가독성을 포기하고 싶지 않아 QueryDSL 을 적용.
+  - `MemberAuthenticationCodeRepository` 에 확장함수를 구현하는 것으로 간단하게 대체 가능했을듯...
+- FeignClient 를 이용하여 NAVERCLOUD SENS API 를 호출. SMS 전송 가능.
+- `Member` 도메인과 외부 의존을 최대한 분리하고자 했음.
+  - `Member` DomainEntpty 가 JPA Entity 로서의 역할도 완전히 가능할 정도로 강결합되어 있음. 
+  - DomainEntity 와 JPAEntity 를 온전히 분리할까 하다가 이미 Web, Service 계층도 Spring 어노테이션에 점철되어 있는걸 보고 포기.
+  - value class 를 활용한 덕분에 `@Embedded` , `@Embeddable` 어노테이션이 필요 없음
+
+## FAQ
+
+- CORS?
+  - protocol(http), host(hyeon9mak.o-r.kr), port(443) 으로만 자원을 제공하므로 CORS 문제는 따로 핸들링할 필요가 없었음!
+- 이벤트 기반
+  - 크게 적용할 부분이 안보였음...
+- 멀티모듈
+  - 도메인 모듈을 정말 순수하게 두기 위해 나눌까 하다가, 오히려 유지보수가 어려워질거 같아서 단일 모듈로 둠.
+
 ## 회원 정보
 
 - 이메일
