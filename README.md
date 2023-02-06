@@ -1,4 +1,4 @@
-# 회원 관리 서비스 (https://hyeon9mak.o-r.kr/swagger-ui/index.html)
+# 회원 관리 서비스
 
 ## 프로젝트 구조
 
